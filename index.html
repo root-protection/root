@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Key Verification</title>
+<style>
+* { box-sizing: border-box; }
+body {
+  margin: 0; min-height: 100vh; display: flex; justify-content: center;
+  align-items: center; font-family: Arial, sans-serif; color: white;
+  background: radial-gradient(circle at top, #123b4b, #050812 65%);
+}
+.card {
+  width: 90%; max-width: 380px; padding: 32px 24px; text-align: center;
+  background: #101827; border: 1px solid #00e5ff; border-radius: 18px;
+  box-shadow: 0 0 30px #00e5ff25;
+}
+h1 { color: #00e5ff; font-size: 26px; }
+p { color: #b8c5d8; }
+input {
+  width: 100%; padding: 14px; margin: 18px 0 12px; border: 1px solid #34445c;
+  border-radius: 9px; background: #080e19; color: white; font-size: 15px;
+}
+button {
+  width: 100%; padding: 14px; border: 0; border-radius: 9px;
+  background: #00d9f5; color: #041018; font-size: 16px;
+  font-weight: bold; cursor: pointer;
+}
+button:active { transform: scale(.98); }
+#error { color: #ff647c; min-height: 20px; }
+.success { color: #38f5a5; font-size: 25px; }
+.check { font-size: 65px; color: #38f5a5; }
+</style>
+</head>
+<body>
+<div class="card" id="app">
+  <h1>ROOT ACCESS</h1>
+  <p>Enter your access key to continue.</p>
+  <form id="keyForm">
+    <input id="key" type="password" placeholder="Enter your key"
+      required autocomplete="off">
+    <button type="submit">VERIFY KEY</button>
+  </form>
+  <p id="error"></p>
+</div>
+<script>
+const validKey = "ari-#789-root**!";
+document.getElementById("keyForm").addEventListener("submit", function(e) {
+  e.preventDefault();
+  if (document.getElementById("key").value === validKey) {
+    history.pushState({page: "success"}, "", "#success");
+    showSuccess();
+  } else {
+    document.getElementById("error").textContent =
+      "❌ Invalid key. Please try again.";
+  }
+});
+function showSuccess() {
+  document.getElementById("app").innerHTML = `
+    <div class="check">✓</div>
+    <h1 class="success">SUCCESSFULLY PROCESSED</h1>
+    <p>Your key has been verified successfully.</p>
+    <button onclick="location.hash=''; location.reload()">BACK TO HOME</button>
+  `;
+}
+window.addEventListener("popstate", function() { location.reload(); });
+</script>
+</body>
+</html>
